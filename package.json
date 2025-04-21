@@ -2,10 +2,10 @@
   "name": "loginjwt",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start:dev": "nodemon ./src/index.mjs",
-    "start": "node ./src/index.mjs",
+    "start:dev": "nodemon ./server.mjs",
+    "start": "node ./server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
