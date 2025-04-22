@@ -1,0 +1,5 @@
+para verificar se o usuario esta autenticado, preciso pegar do cabecalho o 
+authorization, que tem que ter o valor do token que foi dado quando o usuario 
+fez o login. 
+esse token informa o bearer e o valor, depois preciso usar jwt.verify para verificar
+se o token é valido, passand como parametro o jwt.verify(token, jwtSecret, )
