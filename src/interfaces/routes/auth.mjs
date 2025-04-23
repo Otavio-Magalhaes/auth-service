@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login } from "../controllers/authController.mjs";
+import { handleRefreshToken, login } from "../controllers/authController.mjs";
 import { authenticateToken } from "../middlewares/authMiddleware.mjs";
 
 
@@ -14,5 +14,8 @@ router.get("/api/auth/check", authenticateToken, (request,response)=>{
     user: request.user
   })
 })
+
+
+router.get("/api/auth/refresh", handleRefreshToken)
 
 export default router

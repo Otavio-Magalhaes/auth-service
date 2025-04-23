@@ -3,7 +3,9 @@ import jwt from 'jsonwebtoken'
 import { verifyUserCredentials } from '../../domain/usecases/verifyUserCredential.mjs'
 import { config } from '../../config/env.mjs'
 
-const JWT_SECRET = config.jwtSecret
+const JWT_ACCESS_TOKEN_SCRET = config.jwtSecret
+const JWT_REFRESH_TOKEN_SCRET = config.jwtRefreshToken
+
 
 export const loginUser = async (userRepository, loginData) =>{
   const user = await verifyUserCredentials(userRepository, loginData)
@@ -13,12 +15,21 @@ export const loginUser = async (userRepository, loginData) =>{
     email:user.email
   }
 
-  const token = jwt.sign(payload, JWT_SECRET, {
-    expiresIn: "1h"
-  })
+  const token = jwt.sign(
+    payload, 
+    JWT_ACCESS_TOKEN_SCRET, 
+    { expiresIn: "1h" }
+  )
+
+  const refreshToken = jwt.sign(
+    payload,
+    JWT_REFRESH_TOKEN_SCRET,
+    { expiresIn: "7d" }
+  )
 
   return{
     user,
-    token
+    token,
+    refreshToken
   }
 }
