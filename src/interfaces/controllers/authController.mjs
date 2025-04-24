@@ -1,5 +1,4 @@
 import { loginUser } from "../../application/services/loginUser.mjs";
-import { userRepository } from "../../infrastructure/database/userRepository.mjs";
 import { refreshAcessToken } from "../../application/services/refreshAccessToken.mjs";
 
 export const login = async(request, response) =>{

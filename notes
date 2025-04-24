@@ -3,3 +3,15 @@ authorization, que tem que ter o valor do token que foi dado quando o usuario
 fez o login. 
 esse token informa o bearer e o valor, depois preciso usar jwt.verify para verificar
 se o token é valido, passand como parametro o jwt.verify(token, jwtSecret, )
+
+
+
+acessar o banco de dados cmd:
+sudo mysql -u root -p
+
+instalar o prisma e o @prisma/client
+criar o schema com 
+generator client{
+  provider = "prisma-client-js"
+}
+
