@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { verifyUserCredentials } from '../../domain/usecases/verifyUserCredential.mjs'
 import { config } from '../../config/env.mjs'
@@ -15,7 +14,7 @@ export const loginUser = async (userRepository, loginData) =>{
     email:user.email
   }
 
-  const token = jwt.sign(
+  const acessToken = jwt.sign(
     payload, 
     JWT_ACCESS_TOKEN_SCRET, 
     { expiresIn: "1h" }
@@ -29,7 +28,7 @@ export const loginUser = async (userRepository, loginData) =>{
 
   return{
     user,
-    token,
+    acessToken,
     refreshToken
   }
 }
