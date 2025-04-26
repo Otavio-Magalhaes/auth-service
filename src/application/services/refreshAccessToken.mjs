@@ -11,7 +11,6 @@ export const refreshAcessToken = (refreshTokenFromCookie) =>{
 
   try {
     const decoded = jwt.verify(refreshTokenFromCookie, JWT_REFRESH_TOKEN_SCRET)
-    console.log(decoded)
     const newAcessToken = jwt.sign(
       {
         id: decoded.id,

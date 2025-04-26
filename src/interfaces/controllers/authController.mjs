@@ -64,7 +64,6 @@ export const getCurrentUser = (request, response) => {
 export const logout = (request, response) => {
   try {
     const token = request.cookies.refreshToken
-    console.log(token)
     if(!token) 
       return response.status(401).json({error: "Usuario não está logado."})
 
@@ -75,7 +74,6 @@ export const logout = (request, response) => {
     });
     return response.status(200).json({ msg: "Logout realizado com sucesso." });
   } catch (err) {
-    console.log(err)
    return response.status(500).json({ error: "Erro ao realizar logout." });
   }
 }
