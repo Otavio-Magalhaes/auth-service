@@ -22,4 +22,4 @@ router.get("/api/auth/me", authenticateToken,  getCurrentUser)
 
 router.post("/api/auth/logout", logout)
 
-export default router
+export default router 

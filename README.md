@@ -10,7 +10,7 @@ Express.js
 
 Prisma ORM
 
-PostgreSQL (ou o banco que configurar)
+MySql
 
 JWT (JSON Web Token)
 
@@ -57,12 +57,12 @@ Proteção de rotas via middleware de autenticação
 
 Persistência dos usuários com Prisma e banco de dados
 
-
+ 
 ## 🧪 Rotas disponíveis
 
 Método	Rota	Descrição
 
-POST	`/api/auth/register`	Registrar novo usuário
+POST	`/api/users/`	Registrar novo usuário
 
 POST	`/api/auth/login` 	Autenticar usuário e receber tokens
 
@@ -71,6 +71,8 @@ POST	`/api/auth/refresh`	Renovar o Access Token
 POST	`/api/auth/logout`	Fazer logout do usuário
 
 GET	`/api/auth/me`	Obter informações do usuário logado
+
+GET `/api/auth/check` Verificar Acesso Rota protegida.
 
 
 ## ⚙️ Como rodar o projeto
