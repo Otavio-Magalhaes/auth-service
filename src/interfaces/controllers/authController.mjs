@@ -2,6 +2,9 @@ import { loginUser } from "../../application/services/loginUser.mjs";
 import { refreshAcessToken } from "../../application/services/refreshAccessToken.mjs";
 import { config } from "../../config/env.mjs";
 import { UserPrismaRepository } from "../../infrastructure/database/prisma/UserPrismaRepository.mjs";
+import { AuthError, ValidationError } from "../../shared/erros/CustomErrors.mjs";
+
+
 
 const JWT_REFRESH_TOKEN_SCRET = config.jwtRefreshToken
 
@@ -30,7 +33,11 @@ export const login = async(request, response) =>{
       acessToken: acessToken
     })
   }catch(err){
-    response.status(401).json({error: err.message})
+    if (err instanceof AuthError) {
+      response.status(401).json({ error: err.message });
+    } else {
+      response.status(500).json({ error: "Erro inesperado" });
+    }
   }
 }
 
@@ -46,15 +53,16 @@ export const handleRefreshToken = (request, response) => {
       msg: "Novo Acess Token Gerado com sucesso."
     })
   }catch(err){
-    response.status(401).json({
-      error: err.message
-    })
+    if (err instanceof ValidationError) {
+      response.status(err.statusCode || 400).json({ error: err.message });
+    } else {
+      response.status(500).json({ error: "Erro inesperado" });
+    }
   }
 } 
 
 
 export const getCurrentUser = (request, response) => {
-
   const user = request.user
   console.log(user)
   response.status(200).json({user})

@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken"
 import { config } from "../../config/env.mjs"
+import { ValidationError } from "../../shared/erros/CustomErrors.mjs"
 
 const JWT_REFRESH_TOKEN_SCRET =  config.jwtRefreshToken
 const JWT_ACCESS_TOKEN_SCRET  = config.jwtSecret
 
 export const refreshAcessToken = (refreshTokenFromCookie) =>{
   if(!refreshAcessToken){
-    throw new Error("Refresh Token nao fornecido")
+    throw new ValidationError("Refresh Token não fornecido")
   }
 
   try {
@@ -23,7 +24,7 @@ export const refreshAcessToken = (refreshTokenFromCookie) =>{
     return newAcessToken
   
   } catch (err) {
-    throw new Error ("Refresh Token Invalido ou expirado.")
+    throw new ValidationError("Refresh Token Invalido ou expirado.")
   }
 
 }

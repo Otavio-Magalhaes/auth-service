@@ -4,7 +4,6 @@ import {config} from "../../config/env.mjs"
 export const authenticateToken = (request, response, next)=>{
   const authHeader = request.headers['authorization']
 
-  //remover o Bearer e deixar so o valor do token 
   const token = authHeader && authHeader.split(' ')[1]
 
   if(!token){
