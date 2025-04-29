@@ -10,8 +10,8 @@ export const loginUser = async (userRepository, loginData) =>{
   const user = await verifyUserCredentials(userRepository, loginData)
   
   const payload = {
-    id:user.id,
-    email:user.email
+    id: user.id,
+    email: user.email
   }
 
   const acessToken = jwt.sign(
@@ -25,10 +25,11 @@ export const loginUser = async (userRepository, loginData) =>{
     JWT_REFRESH_TOKEN_SCRET,
     { expiresIn: "7d" }
   )
+ 
 
   return{
-    user,
     acessToken,
-    refreshToken
+    refreshToken,
+    user
   }
 }

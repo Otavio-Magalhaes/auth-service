@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 import { UserRepository } from "../../../domain/repositories/user.repository.mjs";
 
-const prisma = new PrismaClient
+export const prisma = new PrismaClient
 
 export class UserPrismaRepository extends UserRepository{
   async findByEmail(email){

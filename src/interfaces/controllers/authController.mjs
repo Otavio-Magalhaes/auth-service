@@ -1,7 +1,7 @@
 import { loginUser } from "../../application/services/loginUser.mjs";
 import { refreshAcessToken } from "../../application/services/refreshAccessToken.mjs";
 import { config } from "../../config/env.mjs";
-import { UserPrismaRepository } from "../../infrastructure/database/prisma/UserPrismaRepository.mjs";
+import { prisma, UserPrismaRepository } from "../../infrastructure/database/prisma/UserPrismaRepository.mjs";
 import { AuthError, ValidationError } from "../../shared/erros/CustomErrors.mjs";
 
 
@@ -27,12 +27,18 @@ export const login = async(request, response) =>{
       maxAge:7 * (24 * 60 * 60 * 1000) // 7 * 1 dia = 7 dias
     })
 
+    await prisma.user.update({
+      where: {id: user.id},
+      data: {refreshToken: refreshToken}
+    })
+
     response.status(200).json({
       msg: "login realizado com sucesso",
       user: user,
       acessToken: acessToken
     })
   }catch(err){
+    console.log(err)
     if (err instanceof AuthError) {
       response.status(401).json({ error: err.message });
     } else {
@@ -42,11 +48,13 @@ export const login = async(request, response) =>{
 }
 
 
-export const handleRefreshToken = (request, response) => {
+export const handleRefreshToken = async (request, response) => {
   try{
     const refreshToken = request.cookies.refreshToken
 
-    const newAccessToken = refreshAcessToken(refreshToken)
+    const newAccessToken = await refreshAcessToken(refreshToken)
+
+    if(!newAccessToken) response.status(400).json({msg: "Erro no AcessToken"})
 
     response.status(200).json({
       token: newAccessToken,
