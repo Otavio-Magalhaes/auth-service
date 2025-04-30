@@ -4,38 +4,11 @@ Este projeto foi criado para estudar autenticação com JWT no backend utilizand
 Além disso, foi o primeiro projeto para começar a aplicar conceitos de Clean Architecture de forma prática.
 
 ## 🚀 Tecnologias usadas
-Node.js
+Node.js | Express.js | Prisma ORM | MySql | JWT (JSON Web Token) | Bcrypt.js (hash de senhas) | 
 
-Express.js
+Cookie-Parser | Dotenv | Docker & Docker Compose
 
-Prisma ORM
 
-MySql
-
-JWT (JSON Web Token)
-
-Bcrypt.js (hash de senhas)
-
-Cookie-Parser
-
-Dotenv
-
-## 🗄️ Modelo de Usuário (Prisma)
-```prisma
-model User {
-  id        String   @id @default(uuid()) @db.Char(36)
-  password  String
-  email     String   @unique
-  role      Role
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-enum Role {
-  USER
-  ADMIN
-}
-```
 
 ## 📑 Funcionalidades
 
@@ -57,10 +30,31 @@ Proteção de rotas via middleware de autenticação
 
 Persistência dos usuários com Prisma e banco de dados
 
+
+## 🗄️ Modelo de Usuário (Prisma)
+
+> ⚠️ **Importante:**  
+> O modelo de usuário está implementado temporariamente dentro do Auth Service por simplicidade.  
+> Em uma arquitetura mais completa ou em produção, esse modelo e sua lógica idealmente estariam isolados em um serviço de usuários (User Service).
+
+
+```prisma
+model User {
+  id        String   @id @default(uuid()) @db.Char(36)
+  password  String
+  email     String   @unique
+  role      Role
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+```
  
 ## 🧪 Rotas disponíveis
-
-Método	Rota	Descrição
 
 POST	`/api/users/`	Registrar novo usuário
 
@@ -76,53 +70,39 @@ GET `/api/auth/check` Verificar Acesso Rota protegida.
 
 
 ## ⚙️ Como rodar o projeto
-# Clone o repositório:
+
+Clone o repositório:
 
 ```
 git clone <URL-do-repositório>
 cd <nome-da-pasta>
 ```
 
-Instale as dependências:
+### 🐳 Ambiente com Docker 
+O projeto agora utiliza Docker para facilitar o setup do ambiente de desenvolvimento.
+
+📦 Subindo os containers
 
 ```
-npm install
+docker compose up --build
 ```
 
-Configure as variáveis de ambiente:
+### Isso irá:
 
-Crie um arquivo .env na raiz do projeto:
+Subir o container com o banco MySQL
+
+Subir o container com o serviço de autenticação
+
+Expor a aplicação em http://localhost:3000
+
+🌐 Variáveis de ambiente usadas
 
 ```
-DATABASE_URL="sua-URL-do-banco-de-dados"
-JWT_ACCESS_TOKEN_SECRET="sua-chave-secreta-acesso"
-JWT_REFRESH_TOKEN_SECRET="sua-chave-secreta-refresh"
+DATABASE_URL="mysql://usuario:root@mysql-db:3306/authdb"
 PORT=3000
+JWT_ACCESS_TOKEN_SECRET=suachavesecreta
+JWT_REFRESH_TOKEN_SECRET=suarefreshsecreta
 ```
-
-Gere o cliente Prisma:
-
-```
-npx prisma generate
-```
-
-Rode as migrations para criar as tabelas:
-
-```
-npx prisma migrate dev
-```
-
-Inicie a aplicação:
-
-```
-npm run dev
-```
-
 
 ## 🚀 Próximos Passos
-
-Implementar roles e permissões (admin, usuário normal)
-
-Melhorar a segurança dos tokens (blacklist e revogação)
-
 Implementar testes automatizados (Jest)
