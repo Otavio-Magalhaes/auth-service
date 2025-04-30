@@ -20,7 +20,7 @@ export const refreshAcessToken = async(refreshTokenFromCookie) =>{
       throw new ValidationError("Token não corresponde ao registrado.")
     }
 
-    const newAcessToken = jwt.sign(
+    const newAccessToken = jwt.sign(
       {
         id: decoded.id,
         email: decoded.email,
@@ -37,13 +37,15 @@ export const refreshAcessToken = async(refreshTokenFromCookie) =>{
       JWT_REFRESH_TOKEN_SCRET,
       {expiresIn: "7d"}
     )
+    console.log(`Acess token gerado:${newAccessToken}`)
+    console.log(`Refresh token gerado:${newRefreshToken}`)
     
     await prisma.user.update({
       where:{id: decoded.id},
       data: { refreshToken: newRefreshToken }
     })
-    console.log("salvo no banco o novo refresh token")
-    return newAcessToken
+
+    return {newAccessToken, newRefreshToken}
   } catch (err) {
     throw new ValidationError("Refresh Token Invalido ou expirado.")
   }

@@ -52,14 +52,30 @@ export const handleRefreshToken = async (request, response) => {
   try{
     const refreshToken = request.cookies.refreshToken
 
-    const newAccessToken = await refreshAcessToken(refreshToken)
+    const {newAccessToken, newRefreshToken} = await refreshAcessToken(refreshToken)
+    console.log(`AcessToken: ${newAccessToken}`)
+    console.log(`RefreshToken: ${newRefreshToken}`)
 
     if(!newAccessToken) response.status(400).json({msg: "Erro no AcessToken"})
 
-    response.status(200).json({
+
+
+    response.cookie
+    (
+      "refreshToken", newRefreshToken,{
+      httpOnly:true,
+      secure: true,
+      samesite:"Strict",
+      maxAge:7 * (24 * 60 * 60 * 1000)
+    })
+    .status(200)
+    .json({
       token: newAccessToken,
       msg: "Novo Acess Token Gerado com sucesso."
     })
+
+ 
+
   }catch(err){
     if (err instanceof ValidationError) {
       response.status(err.statusCode || 400).json({ error: err.message });
