@@ -1,12 +1,13 @@
 import { Router } from "express";
 import { getCurrentUser, handleRefreshToken, login, logout } from "../controllers/authController.mjs";
-import { authenticateToken } from "../middlewares/authMiddleware.mjs";
+import { authenticateToken } from "../../infrastructure/middlewares/authMiddleware.mjs";
+import { loginLimiter } from "../../infrastructure/middlewares/rateLimiters/loginLimiter.mjs";
 
 
 
 const router = Router()
 
-router.post("/api/auth/login", login)
+router.post("/api/auth/login",loginLimiter ,login)
 
 router.get("/api/auth/check", authenticateToken, (request,response)=>{
   response.json({
