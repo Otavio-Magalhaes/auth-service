@@ -38,7 +38,6 @@ export const login = async(request, response) =>{
       acessToken: acessToken
     })
   }catch(err){
-    console.log(err)
     if (err instanceof AuthError) {
       response.status(401).json({ error: err.message });
     } else {
@@ -53,8 +52,7 @@ export const handleRefreshToken = async (request, response) => {
     const refreshToken = request.cookies.refreshToken
 
     const {newAccessToken, newRefreshToken} = await refreshAcessToken(refreshToken)
-    console.log(`AcessToken: ${newAccessToken}`)
-    console.log(`RefreshToken: ${newRefreshToken}`)
+
 
     if(!newAccessToken) response.status(400).json({msg: "Erro no AcessToken"})
 
@@ -88,7 +86,6 @@ export const handleRefreshToken = async (request, response) => {
 
 export const getCurrentUser = (request, response) => {
   const user = request.user
-  console.log(user)
   response.status(200).json({user})
 }
 

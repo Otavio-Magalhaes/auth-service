@@ -37,8 +37,7 @@ export const refreshAcessToken = async(refreshTokenFromCookie) =>{
       JWT_REFRESH_TOKEN_SCRET,
       {expiresIn: "7d"}
     )
-    console.log(`Acess token gerado:${newAccessToken}`)
-    console.log(`Refresh token gerado:${newRefreshToken}`)
+ 
     
     await prisma.user.update({
       where:{id: decoded.id},
