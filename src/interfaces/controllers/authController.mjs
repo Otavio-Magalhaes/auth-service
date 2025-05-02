@@ -3,6 +3,7 @@ import { refreshAcessToken } from "../../application/services/refreshAccessToken
 import { config } from "../../config/env.mjs";
 import { prisma, UserPrismaRepository } from "../../infrastructure/database/prisma/UserPrismaRepository.mjs";
 import { AuthError, ValidationError } from "../../shared/erros/CustomErrors.mjs";
+import { validatesLoginUser } from "../validators/validationSchema.mjs";
 
 
 
@@ -10,9 +11,10 @@ const JWT_REFRESH_TOKEN_SCRET = config.jwtRefreshToken
 
 
 
-export const login = async(request, response) =>{
+export const login = async(request, response)=>{
   try{
-    const {email,password} = request.body
+    const {email,password} = request.validate
+    
     const loginData = {email, password}
 
     const userRepository = new UserPrismaRepository()
