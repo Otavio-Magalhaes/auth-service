@@ -11,7 +11,7 @@ import {csrfProtection} from "../../infrastructure/middlewares/csrfProtection.mj
 const router = Router()
 
 
-router.get("  ",csrfProtection ,getCsrfToken)
+router.get("/api/auth/csfr-token",csrfProtection ,getCsrfToken)
 
 router.post("/api/auth/login", validatesLoginUser, validateRequest, loginLimiter ,login)
 

@@ -68,6 +68,12 @@ GET	`/api/auth/me`	Obter informações do usuário logado
 
 GET `/api/auth/check` Verificar Acesso Rota protegida.
 
+GET `/api/auth/csfr-token` Obter o CSFR Token.
+
+ ⚠️ **OBS:**  
+> rimeiro chamem GET `/api/auth/csrf-token`
+> Depois incluam o token no header `X-CSRF-Token` ao fazer `POST /refresh` ou `POST /logout`
+
 
 ## ⚙️ Como rodar o projeto
 
