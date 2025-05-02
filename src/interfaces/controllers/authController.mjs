@@ -13,6 +13,7 @@ const JWT_REFRESH_TOKEN_SCRET = config.jwtRefreshToken
 
 export const login = async(request, response)=>{
   try{
+
     const {email,password} = request.validate
     
     const loginData = {email, password}
@@ -21,18 +22,19 @@ export const login = async(request, response)=>{
 
     const {acessToken, refreshToken, user} = await loginUser(userRepository, loginData)
 
-
     response.cookie("refreshToken", refreshToken,{
       httpOnly:true,
       secure: true,
       samesite:"Strict",
-      maxAge:7 * (24 * 60 * 60 * 1000) // 7 * 1 dia = 7 dias
+      maxAge:7 * (24 * 60 * 60 * 1000) 
     })
+
 
     await prisma.user.update({
       where: {id: user.id},
       data: {refreshToken: refreshToken}
     })
+
 
     response.status(200).json({
       msg: "login realizado com sucesso",
@@ -57,8 +59,6 @@ export const handleRefreshToken = async (request, response) => {
 
 
     if(!newAccessToken) response.status(400).json({msg: "Erro no AcessToken"})
-
-
 
     response.cookie
     (
@@ -106,5 +106,20 @@ export const logout = (request, response) => {
     return response.status(200).json({ msg: "Logout realizado com sucesso." });
   } catch (err) {
    return response.status(500).json({ error: "Erro ao realizar logout." });
+  }
+}
+
+
+export const getCsrfToken = (request, response) => {
+
+  try {
+    const token = request.csrfToken()
+  
+    
+    return response.status(200).json({csrfToken: token})
+    
+  } catch (err) {
+   return response.status(400).send({msg: "Token CSRF invalido."})
+    
   }
 }
