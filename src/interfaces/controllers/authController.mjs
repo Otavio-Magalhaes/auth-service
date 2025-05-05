@@ -1,6 +1,7 @@
 import { loginUser } from "../../application/services/loginUser.mjs";
 import { refreshAcessToken } from "../../application/services/refreshAccessToken.mjs";
 import { config } from "../../config/env.mjs";
+import logger from "../../config/logger.mjs";
 import { prisma, UserPrismaRepository } from "../../infrastructure/database/prisma/UserPrismaRepository.mjs";
 import { AuthError, ValidationError } from "../../shared/erros/CustomErrors.mjs";
 import { validatesLoginUser } from "../validators/validationSchema.mjs";
@@ -35,6 +36,7 @@ export const login = async(request, response)=>{
       data: {refreshToken: refreshToken}
     })
 
+    logger.info(`Usuario Logado: ${user.email}, id: ${user.id}`)
 
     response.status(200).json({
       msg: "login realizado com sucesso",
@@ -42,11 +44,8 @@ export const login = async(request, response)=>{
       acessToken: acessToken
     })
   }catch(err){
-    if (err instanceof AuthError) {
-      response.status(401).json({ error: err.message });
-    } else {
-      response.status(500).json({ error: "Erro inesperado" });
-    }
+    logger.err("erro no login", err)
+    response.status(401).json({ error: err.message });
   }
 }
 

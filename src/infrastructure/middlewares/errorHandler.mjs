@@ -1,13 +1,11 @@
-export const errorHandler = (err, request, response, next) =>{
-  console.error(err)
+import logger from "../../config/logger.mjs"
 
-  const statusCode = err.statusCode || 500
-  const message = err.message || "Erro interno do Servidor"
+export const errorHandler = (err, request, response, next) =>{
+  logger.error(err)
 
   response.status(statusCode).json({
     error: {
-      message,
-      statusCode,
+      message: err.message || "erro do serivdor"
     },
   })
 }
