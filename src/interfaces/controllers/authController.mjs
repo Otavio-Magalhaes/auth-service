@@ -37,7 +37,7 @@ export const login = async(request, response)=>{
     })
 
     logger.info(`Usuario Logado: ${user.email}, id: ${user.id}`)
-
+    logger.info(`RefreshToken Gerado ${refreshToken}`)
     response.status(200).json({
       msg: "login realizado com sucesso",
       user: user,
@@ -59,6 +59,8 @@ export const handleRefreshToken = async (request, response) => {
 
     if(!newAccessToken) response.status(400).json({msg: "Erro no AcessToken"})
 
+    logger.info(`O Usuário gerou um Novo Acess Token: ${newAccessToken}`)
+    
     response.cookie
     (
       "refreshToken", newRefreshToken,{
@@ -76,36 +78,37 @@ export const handleRefreshToken = async (request, response) => {
  
 
   }catch(err){
-    if (err instanceof ValidationError) {
-      response.status(err.statusCode || 400).json({ error: err.message });
-    } else {
-      response.status(500).json({ error: "Erro inesperado" });
-    }
+    logger.error("erro na geração do Token", err)
+    return response.status(401).json({ error: err.message });
   }
 } 
 
 
 export const getCurrentUser = (request, response) => {
   const user = request.user
-  response.status(200).json({user})
+  return response.status(200).json({user})
 }
 
 
-export const logout = (request, response) => {
+export const logout = async(request, response) => {
   try {
     const token = request.cookies.refreshToken
     if(!token) 
       return response.status(401).json({error: "Usuario não está logado."})
-
+    
+    logger.info(`O Usuário deslogou`)
     response.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
       samesite: "Strict"
     });
+
     return response.status(200).json({ msg: "Logout realizado com sucesso." });
   } catch (err) {
-   return response.status(500).json({ error: "Erro ao realizar logout." });
+    logger.error("tentativa de logout sem cookie, sem sessão válida etc.", err)
+    return response.status(500).json({ error: err.message });
   }
+  
 }
 
 
@@ -114,10 +117,11 @@ export const getCsrfToken = (request, response) => {
   try {
     const token = request.csrfToken()
   
-    
+    logger.info(`Token CSRF ${token}`)
     return response.status(200).json({csrfToken: token})
     
   } catch (err) {
+    logger.info(`Erro: ${err}`)
    return response.status(400).send({msg: "Token CSRF invalido."})
     
   }

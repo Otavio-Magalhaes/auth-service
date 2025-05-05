@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import { config } from "../../config/env.mjs"
 import { ValidationError } from "../../shared/erros/CustomErrors.mjs"
 import { prisma}  from "../../infrastructure/database/prisma/UserPrismaRepository.mjs"
+import logger from "../../config/logger.mjs"
 
 const JWT_REFRESH_TOKEN_SCRET =  config.jwtRefreshToken
 const JWT_ACCESS_TOKEN_SCRET  = config.jwtSecret
@@ -46,6 +47,7 @@ export const refreshAcessToken = async(refreshTokenFromCookie) =>{
 
     return {newAccessToken, newRefreshToken}
   } catch (err) {
+    logger.error(`Erro: ${err}`)
     throw new ValidationError("Refresh Token Invalido ou expirado.")
   }
 }
