@@ -1,10 +1,10 @@
-#dependencies
+
 node_modules/
 
-#enviroment
+
 .env
 
-notes
+note
 
 logs/
 *.log

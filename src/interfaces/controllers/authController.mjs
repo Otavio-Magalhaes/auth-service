@@ -41,10 +41,10 @@ export const login = async(request, response)=>{
     response.status(200).json({
       msg: "login realizado com sucesso",
       user: user,
-      acessToken: acessToken
+      accessToken: acessToken
     })
   }catch(err){
-    logger.err("erro no login", err)
+    logger.error("erro no login", err)
     response.status(401).json({ error: err.message });
   }
 }
