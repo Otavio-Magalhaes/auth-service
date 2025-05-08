@@ -21,7 +21,7 @@ router.get("/api/auth/check", authenticateToken, (request,response)=>{
     user: request.user
   })
 })
-
+ 
 router.post("/api/auth/refresh", csrfProtection ,handleRefreshToken)
 
 router.get("/api/auth/me", authenticateToken,  getCurrentUser)
