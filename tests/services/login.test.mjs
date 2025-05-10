@@ -1,13 +1,13 @@
-import supertest from "supertest"; 
+import request from "supertest"; 
 import app from "../../app.mjs"
 
-const request = supertest;
+
 
 describe("Auth Routes", () => {
   it("deve logar com sucesso com credenciais válidas", async () => {
     const res = await request(app).post("/api/auth/login").send({
-      email: "otavio@gmail.com",
-      password: "Oivato1018*"
+      email: "user@exemple.com",
+      password: "sernhaErrada0*"
     });
 
     expect(res.statusCode).toBe(200);

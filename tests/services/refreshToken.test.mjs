@@ -21,7 +21,8 @@ describe('POST /api/auth/refresh', () => {
       where: { id: mockUser.id },
       data: { refreshToken }
     });
-    const csrfResponse = await request(app).get('/api/auth/csfr-token');
+    
+    const csrfResponse = await request(app).get('/api/auth/csrf-token');
     const csrfToken = csrfResponse.body.csrfToken;
     const cookies = csrfResponse.headers['set-cookie'] || [];
     const csrfCookie = cookies.find(cookie => cookie.includes('_csrf='));
