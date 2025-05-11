@@ -8,7 +8,6 @@ describe('POST /api/auth/refresh', () => {
   it('deve retornar o AcessToken e RefreshToken válidos', async () => {
 
     const mockUser = {
-      //crie esse usuario exemplo no banco para fazer o teste da rota.
       id: 'fdf7156c-190d-4fbe-8c1a-b404d30c83d3', 
       email: 'user@example.com'
     }

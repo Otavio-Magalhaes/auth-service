@@ -1,6 +1,5 @@
 import { checkSchema } from "express-validator"
 
-
 export const validatesLoginUser = checkSchema ({
   email: {
     in: ['body'],

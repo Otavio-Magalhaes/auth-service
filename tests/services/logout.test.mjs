@@ -13,10 +13,8 @@ describe("Logout", () => {
 
     expect(responseLogin.statusCode).toBe(200);
 
-
     const loginCookies = responseLogin.headers["set-cookie"];
     const refreshTokenCookie = loginCookies.find(cookie => cookie.includes("refreshToken="));
-
   
     const csrfResponse = await request(app)
       .get("/api/auth/csrf-token")
@@ -26,9 +24,7 @@ describe("Logout", () => {
     const csrfToken = csrfResponse.body.csrfToken;
     const csrfCookies = csrfResponse.headers["set-cookie"];
 
-
     const allCookies = [...loginCookies, ...(csrfCookies)];
-
  
     const responseLogout = await request(app)
       .post("/api/auth/logout")

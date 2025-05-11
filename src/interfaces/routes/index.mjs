@@ -5,7 +5,6 @@ import swaggerDocs from '../docs/swaggerDocs.mjs';
 
 const router = Router()
 
-
 router.use(authRoutes)
 router.use(usersRoutes)
 router.use('/api-docs', swaggerDocs);

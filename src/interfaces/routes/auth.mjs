@@ -5,11 +5,8 @@ import { loginLimiter } from "../../infrastructure/middlewares/rateLimiters/logi
 import { validatesLoginUser } from "../validators/validationSchema.mjs";
 import { validateRequest } from "../../infrastructure/middlewares/validateRequest.mjs";
 import {csrfProtection} from "../../infrastructure/middlewares/csrfProtection.mjs"
-
-
   
 const router = Router()
-
 
 router.get("/api/auth/csrf-token",csrfProtection ,getCsrfToken)
 
