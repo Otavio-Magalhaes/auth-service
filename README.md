@@ -4,31 +4,40 @@ Este projeto foi criado para estudar autenticação com JWT no backend utilizand
 Além disso, foi o primeiro projeto para começar a aplicar conceitos de Clean Architecture de forma prática.
 
 ## 🚀 Tecnologias usadas
-Node.js | Express.js | Prisma ORM | MySql | JWT (JSON Web Token) | Bcrypt.js (hash de senhas) | 
-
-Cookie-Parser | Dotenv | Docker & Docker Compose
+Node.js | Express.js | Prisma ORM | MySql | JWT (JSON Web Token) | Bcrypt.js (hash de senhas) | Winston | express-rate-limit | csurf |
+Jest e Supertest | Docker & Docker Compose | Cookie-Parser | Dotenv 
 
 
 
 ## 📑 Funcionalidades
 
-Cadastro de novo usuário
+- ### Autenticação JWT: 
+  Login de usuário com emissão de Access Token e Refresh Token em JSON Web Tokens, validando credenciais com segurança.
 
-Login com verificação de senha hash
+- ### Registro de usuário:
+  Endpoint para cadastrar novos usuários com senha criptografada (bcrypt).
 
-Geração de Access Token (curta duração)
+- ### Rotas protegidas: 
+  Middleware que verifica o JWT em rotas que exigem autenticação.
 
-Geração de Refresh Token (longa duração via cookies)
+- ### Arquitetura limpa: 
+  Código organizado em camadas (controladores, serviços, repositórios, etc.), facilitando manutenção e testes.
 
-Refresh de Access Token
+- ### Observabilidade: 
+  Logs detalhados de requisições e erros são gerados usando o Winston. Isso ajuda na depuração e monitoração básica da API.
 
-Logout com remoção do Refresh Token
+- ### Segurança adicional:
+  - Rate Limiting: 
+    Limita tentativas de login consecutivas (via `express-rate-limit` ) para evitar brute force.
 
-Endpoint /me para buscar usuário logado
+  - Proteção CSRF: Endpoint `GET /csrf-token` que retorna um token CSRF válido (usando `csurf`), para proteger formulários/autenticações do front-end contra ataques CSRF.
 
-Proteção de rotas via middleware de autenticação
+- ### Testes automatizados: 
+  Conjunto de testes unitários e de integração escrito com Jest e Supertest, garantindo que as principais rotas de autenticação funcionam corretamente.
 
-Persistência dos usuários com Prisma e banco de dados
+- ### Ambiente Docker Compose: 
+  Arquivo docker-compose.yml configura containers para o servidor Node e o banco MySQL, facilitando a inicialização completa do sistema.
+
 
 
 ## 🗄️ Modelo de Usuário (Prisma)
@@ -110,5 +119,9 @@ JWT_ACCESS_TOKEN_SECRET=suachavesecreta
 JWT_REFRESH_TOKEN_SECRET=suarefreshsecreta
 ```
 
-## 🚀 Próximos Passos
-Implementar testes automatizados (Jest)
+## 🚀 Testes de integração com Jest
+O projeto inclui testes automatizados das principais funcionalidades de autenticação.
+Supertest (para testes de integração das rotas HTTP). Para executá-los, rode:
+```
+docker exec -it "Docker Container" npm test tests/services/"nomedoteste".mjs
+```
