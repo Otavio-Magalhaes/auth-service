@@ -8,3 +8,5 @@ note
 
 logs/
 *.log
+
+.gitignore
