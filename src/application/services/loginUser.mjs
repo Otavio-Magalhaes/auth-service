@@ -1,14 +1,14 @@
 import jwt from 'jsonwebtoken'
 import { verifyUserCredentials } from '../../domain/usecases/verifyUserCredential.mjs'
 import { config } from '../../config/env.mjs'
+import bycrpt from "bcrypt"
 
 const JWT_ACCESS_TOKEN_SCRET = config.jwtSecret
 const JWT_REFRESH_TOKEN_SCRET = config.jwtRefreshToken
 
 
-export const loginUser = async (userRepository, loginData) =>{
-  const user = await verifyUserCredentials(userRepository, loginData)
-  
+export const loginUser = async (loginData) =>{
+  const user = await verifyUserCredentials(loginData)
   const payload = {
     id: user.id,
     email: user.email

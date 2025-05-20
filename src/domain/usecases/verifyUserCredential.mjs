@@ -1,12 +1,23 @@
 import bcrypt from 'bcrypt'
 import { AuthError } from '../../shared/erros/CustomErrors.mjs'
+import { config} from '../../config/env.mjs'
 
-export const verifyUserCredentials = async (userRepository, loginData)=>{
+export const verifyUserCredentials = async (loginData)=>{
+  const email = loginData.email
+  const response = await fetch("http://user-service:3000/api/users/email", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json',
+      'x-internal-token': config.internalAPIKey
+    },
+    body: JSON.stringify({email})
+  })
 
-  const user = await userRepository.findByEmail(loginData.email)
-  if(!user){
+  
+  if(!response.ok){
     throw new AuthError()
   }
+  const user = await response.json();
   const passwordMatch = await bcrypt.compare(loginData.password, user.password)
 
   if(!passwordMatch){

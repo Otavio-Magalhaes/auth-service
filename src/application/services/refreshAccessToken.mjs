@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken"
 import { config } from "../../config/env.mjs"
 import { ValidationError } from "../../shared/erros/CustomErrors.mjs"
-import { prisma}  from "../../infrastructure/database/prisma/UserPrismaRepository.mjs"
 import logger from "../../config/logger.mjs"
 
 const JWT_REFRESH_TOKEN_SCRET =  config.jwtRefreshToken

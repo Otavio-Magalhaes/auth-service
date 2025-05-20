@@ -13,7 +13,7 @@ router.get("/api/auth/csrf-token",csrfProtection ,getCsrfToken)
 router.post("/api/auth/login", validatesLoginUser, validateRequest, loginLimiter ,login)
 
 router.get("/api/auth/check", authenticateToken, (request,response)=>{
-  response.json({
+  response.status(200).json({
     msg: "Voce acessou a rota protegida",
     user: request.user
   })

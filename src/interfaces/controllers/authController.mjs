@@ -2,7 +2,6 @@ import { loginUser } from "../../application/services/loginUser.mjs";
 import { refreshAcessToken } from "../../application/services/refreshAccessToken.mjs";
 import { config } from "../../config/env.mjs";
 import logger from "../../config/logger.mjs";
-import { prisma, UserPrismaRepository } from "../../infrastructure/database/prisma/UserPrismaRepository.mjs";
 import { AuthError, ValidationError } from "../../shared/erros/CustomErrors.mjs";
 import { validatesLoginUser } from "../validators/validationSchema.mjs";
 
@@ -10,7 +9,7 @@ import { validatesLoginUser } from "../validators/validationSchema.mjs";
 
 const JWT_REFRESH_TOKEN_SCRET = config.jwtRefreshToken
 
-
+ 
 
 export const login = async(request, response)=>{
   try{
@@ -19,9 +18,8 @@ export const login = async(request, response)=>{
     
     const loginData = {email, password}
 
-    const userRepository = new UserPrismaRepository()
+    const {acessToken, refreshToken, user} = await loginUser(loginData)
 
-    const {acessToken, refreshToken, user} = await loginUser(userRepository, loginData)
 
     response.cookie("refreshToken", refreshToken,{
       httpOnly:true,
@@ -30,11 +28,11 @@ export const login = async(request, response)=>{
       maxAge:7 * (24 * 60 * 60 * 1000) 
     })
 
-
-    await prisma.user.update({
-      where: {id: user.id},
-      data: {refreshToken: refreshToken}
-    })
+    //lembrar de criar um middleware para salvar o token no banco do user.
+    // await prisma.user.update({
+    //   where: {id: user.id},
+    //   data: {refreshToken: refreshToken}
+    // })
 
     logger.info(`Usuario Logado: ${user.email}, id: ${user.id}`)
     logger.info(`RefreshToken Gerado ${refreshToken}`)
