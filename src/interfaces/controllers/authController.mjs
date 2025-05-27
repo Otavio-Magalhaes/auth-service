@@ -83,8 +83,16 @@ export const handleRefreshToken = async (request, response) => {
 
 
 export const getCurrentUser = (request, response) => {
-  const user = request.user
-  return response.status(200).json({user})
+  try{
+    const user = request.user
+    if(!user){
+      throw new Error("Nao tem usuario logado")
+      return response.status(400).json({msg:"Sem usuario logado."})
+    }
+    return response.status(200).json({user})
+  }catch(err){
+    return  response.status(500).json({err})
+  }
 }
 
 

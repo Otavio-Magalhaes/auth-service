@@ -11,7 +11,8 @@ export const loginUser = async (loginData) =>{
   const user = await verifyUserCredentials(loginData)
   const payload = {
     id: user.id,
-    email: user.email
+    email: user.email,
+    role: user.role
   }
 
   const acessToken = jwt.sign(

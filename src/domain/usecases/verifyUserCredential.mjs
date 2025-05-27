@@ -25,7 +25,8 @@ export const verifyUserCredentials = async (loginData)=>{
   }
   const userWithoutPassword = {
     id: user.id,
-    email: user.email
+    email: user.email,
+    role: user.role
   }
 
   return userWithoutPassword
